@@ -38,7 +38,6 @@ export default {
             Vue.http.headers.common.Authorization
           )
           .then(() => {
-            this.success("Spotkanie zostało pomyślnie utworzone.");
             this.adding = false;
           });
       } else {
