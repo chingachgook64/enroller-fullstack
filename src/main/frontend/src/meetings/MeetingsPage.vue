@@ -25,47 +25,32 @@ export default {
   props: ["username"],
   data() {
     return {
-      meetings: () => {
-        methods.loadMeetings();
-        return [];
-      },
+      meetings: [],
     };
   },
 
   methods: {
-    addNewMeeting(meeting) {
-      this.meetings.push(meeting);
-    },
+    addNewMeeting() {},
     addMeetingParticipant(meeting) {
       meeting.participants.push(this.username);
     },
     removeMeetingParticipant(meeting) {
-      this.$http
-        .delete(
-          `participants/${this.username}`,
-          {},
-          Vue.http.headers.common.Authorization
-        )
-        .then((response) => {
-          this.meetings = response.body;
-        });
-
-      //   meeting.participants.splice(
-      //     meeting.participants.indexOf(this.username),
-      //     1
-      //   );
+      meeting.participants.splice(
+        meeting.participants.indexOf(this.username),
+        1
+      );
     },
     deleteMeeting(meeting) {
       this.$http
         .delete(
-          `meetings/${meeting.id}/${this.username}`,
+          `meetings/${meeting.id}`,
           {},
           Vue.http.headers.common.Authorization
         )
-        .then((response) => {
-          this.meetings = response.body;
+        .then(() => this.loadMeetings())
+        .catch((response) => {
+          console.log("Błąd usuwania użytkownika", response.status);
         });
-      //   this.meetings.splice(this.meetings.indexOf(meeting), 1);
     },
     loadMeetings() {
       this.$http
