@@ -80,7 +80,7 @@ export default {
           this.storeAuth(user.login, token);
         })
         .catch(() => this.failure("Logowanie nieudane."));
-      
+    },
     storeAuth(username, token) {
       this.authenticatedUsername = username;
       Vue.http.headers.common.Authorization = "Bearer " + token;
