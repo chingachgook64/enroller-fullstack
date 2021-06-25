@@ -33,15 +33,35 @@ export default {
     addNewMeeting(meeting) {
       this.meetings.push(meeting);
     },
+
     addMeetingParticipant(meeting) {
       meeting.participants.push(this.username);
+      this.$http
+        .put(
+          `meetings/${meeting.id}/${this.username}`,
+          {},
+          Vue.http.headers.common.Authorization
+        )
+        .then(() => this.loadMeetings())
+        .catch((response) => {
+          console.log("Błąd dodawania użytkownika", response.status);
+        });
     },
+
     removeMeetingParticipant(meeting) {
-      meeting.participants.splice(
-        meeting.participants.indexOf(this.username),
-        1
-      );
+      meeting.participants.splice(meeting.participants.indexOf(this.username));
+      this.$http
+        .delete(
+          `meetings/${meeting.id}/${this.username}`,
+          {},
+          Vue.http.headers.common.Authorization
+        )
+        .then(() => this.loadMeetings())
+        .catch((response) => {
+          console.log("Błąd usuwania użytkownika", response.status);
+        });
     },
+
     deleteMeeting(meeting) {
       this.$http
         .delete(
@@ -51,17 +71,23 @@ export default {
         )
         .then(() => this.loadMeetings())
         .catch((response) => {
-          console.log("Błąd usuwania użytkownika", response.status);
+          console.log("Błąd usuwania spotkania", response.status);
         });
     },
+
     loadMeetings() {
       this.$http
         .get("meetings", {}, Vue.http.headers.common.Authorization)
         .then((response) => {
           this.meetings = response.body;
+          vm.$forceUpdate();
+        })
+        .catch((response) => {
+          console.log("Błąd pobierania listy spotkań", response.status);
         });
     },
   },
+
   beforeMount() {
     this.loadMeetings();
   },

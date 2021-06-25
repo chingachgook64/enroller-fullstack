@@ -31,6 +31,7 @@ export default {
         this.$emit("added", this.newMeeting);
         // this.newMeeting = { participants: [] };
         this.newMeeting.date = new Date().toLocaleString();
+        this.newMeeting.participants = [];
         this.$http
           .post(
             "meetings",

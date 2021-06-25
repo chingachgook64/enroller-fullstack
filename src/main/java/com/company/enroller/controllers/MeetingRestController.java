@@ -87,7 +87,6 @@ public class MeetingRestController {
 		}
 		
 		meeting.addParticipant(participant);
-		meetingService.updateMeeting(meeting);
 		
 		return new ResponseEntity<Meeting>(meeting, HttpStatus.OK);
 		
