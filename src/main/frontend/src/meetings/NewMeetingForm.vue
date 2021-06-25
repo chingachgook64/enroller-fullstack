@@ -29,7 +29,6 @@ export default {
       this.error = false;
       if (this.newMeeting.title) {
         this.$emit("added", this.newMeeting);
-        // this.newMeeting = { participants: [] };
         this.newMeeting.date = new Date().toLocaleString();
         this.newMeeting.participants = [];
         this.$http

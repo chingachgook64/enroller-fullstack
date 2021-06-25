@@ -35,7 +35,6 @@ export default {
     },
 
     addMeetingParticipant(meeting) {
-      meeting.participants.push(this.username);
       this.$http
         .put(
           `meetings/${meeting.id}/${this.username}`,
@@ -49,7 +48,6 @@ export default {
     },
 
     removeMeetingParticipant(meeting) {
-      meeting.participants.splice(meeting.participants.indexOf(this.username));
       this.$http
         .delete(
           `meetings/${meeting.id}/${this.username}`,
@@ -80,7 +78,6 @@ export default {
         .get("meetings", {}, Vue.http.headers.common.Authorization)
         .then((response) => {
           this.meetings = response.body;
-          vm.$forceUpdate();
         })
         .catch((response) => {
           console.log("Błąd pobierania listy spotkań", response.status);
